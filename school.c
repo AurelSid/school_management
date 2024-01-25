@@ -4,6 +4,17 @@
 
 void mainMenu();
 void secondMenu();
+void printSchoolDetails();
+int clearInputBuffer();
+
+//Clear the buffer
+
+int clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+    return c;
+}
+
 
 // Defining 'Student' Struct
 
@@ -69,32 +80,33 @@ Course* createCourse()
 }
 
 //Creating a school
-
 School* createSchool()
 {
     char userInput;
     printf("Press ENTER to add an Establishment\n");
-    scanf("%c",&userInput);
-    if(userInput=='\n')
-    {    
-        School* newSchool =  (School*)malloc(sizeof(School));
+    scanf("%c", &userInput);
+    if (userInput == '\n')
+    {
+        School* newSchool = (School*)malloc(sizeof(School));
         printf("ENTER SCHOOL NAME: ");
         scanf("%s", newSchool->name);
         printf("Enter number of courses: ");
-        scanf("%u",&(newSchool->totalCourses));
-        newSchool->courseArray=(Course*)malloc(sizeof(Course) * newSchool->totalCourses);
+        scanf("%u", &(newSchool->totalCourses));
+        newSchool->courseArray = (Course*)malloc(sizeof(Course) * newSchool->totalCourses);
 
-        for (int i=0 ; i < newSchool->totalCourses ; i++)
+        for (int i = 0; i < newSchool->totalCourses; i++)
         {
-            printf("Enter infos about Course course number #%d \n",i+1);
+            printf("Enter infos about Course course number #%d \n", i + 1);
             Course* newCourse = createCourse();
             newSchool->courseArray[i] = *newCourse;
-            free (newCourse);
         }
+
+        printf("SCHOOL ADDED select School details to see all the schools details.");
+        secondMenu(newSchool);
         return newSchool;
     }
+    return NULL; 
 }
-
 //Printing students details
 
 void printStudentDetails(Student* student)
@@ -164,78 +176,30 @@ void printStudentsWhoPassed(Course* course, double cutOffGrade)
     }
 }
 
-// printing all courses with pass average grade 
 
-void printCoursesWithPassAvgGrade(School* school, double cutOffGrade)
-{
-    printf("Courses With and average that passes : \n");
-    for(int i=0; i < school->totalCourses;i++)
-    {
-        if(school->courseArray[i].averageGrade >= cutOffGrade)
-        {
-            printCourseDetails(&(school->courseArray[i]));
-        }
-    }
-}
-
-void printCoursesWithFailAvgGrade(School* school, double cutOffGrade)
-{
-    printf("Courses With and average that do not pass : \n");
-    for(int i=0; i < school->totalCourses;i++)
-    {
-        if(school->courseArray[i].averageGrade < cutOffGrade)
-        {
-            printCourseDetails(&(school->courseArray[i]));
-        }
-    }
-}
-
-//printing average grade between all courses
-void printAverageGradeAllCourses(School* school)
-{
-    
-    double totalGrade=0;
-    for (int i=0; i < school->totalCourses; i++)
-    {
-        totalGrade += (school->courseArray[i].averageGrade);
-        
-    }
-    double average = totalGrade / school->totalCourses;
-
-    printf("The total average grade for the %s School is: %2f \n ", school->name, average);
-}
-
-//printing course with highest average
-
-void printCourseWithHighestAverage(School* school)
-{
-    
-    double highestAvg = 0;
-
-    Course* highestAvgCourse = NULL;
-
-    for(int i=0; i < school->totalCourses; i++)
-    {
-        if(school->courseArray[i].averageGrade > highestAvg)
-        {
-            highestAvg = school->courseArray[i].averageGrade;
-            highestAvgCourse = &(school->courseArray[i]);
-        }
-    }
-
-    printf("The total average grade for the %s School is course : \n ", school->name);
-    printCourseDetails(highestAvgCourse);
-}
 
 void printSchoolDetails(School* school)
 {
-    for(int i =0; i < school->totalCourses; i++)
+    char userInput = 'c';
+
+    for(int i = 0; i < school->totalCourses; i++)
     {
         printCourseDetails(&(school->courseArray[i]));
     }
+
+    printf("Press ENTER to go back to Menu");
+
+    // Consume the newline character from the buffer
+    while (getchar() != '\n');
+
+    // Read the user input
+    scanf("%c", &userInput);
+
+    if(userInput == '\n')
+    {
+        secondMenu(school);  // Pass the school argument to secondMenu
+    }
 }
-
-
 
 
 //FIRST MENU ********************************************
@@ -248,40 +212,67 @@ void mainMenu()
   
         printf("You do not manage any establishments at the moment\n\n");
         School* mySchool = createSchool();
-        secondMenu(mySchool);
+       
     
 }
 
 
 //SECOND MENU ***********************************************
 
-
 void secondMenu(School *myschool)
 {
-    int choice=0;
-    
-    printf("\n******************** CHOOSE AN OPTION AN PRESS ENTER******************** \n\n");
+    int choice = 0;
 
-    printf("\n 1. -Print school details \n");
-    printf("\n 1. -Print course details \n");
-    printf("\n 1. -Print student details \n");
-    printf("\n 1. -Print student course \n");
-    printf("\n 1. -Print course with highest average \n");
-    printf("\n 1. -Print school details \n");
+        printf("\n******************** CHOOSE AN OPTION AND PRESS ENTER ******************** \n\n");
 
-    scanf("%d",&choice);
+        printf("1. - Add new school\n");
+        printf("2. - Print school details\n");
+        printf("3. - Print course details\n");
+        printf("4. - Print student details\n");
+        printf("5. - Print student course\n");
+        printf("6. - Print course with the highest average\n");
+        printf("7. - Exit\n");
 
-    switch(choice)
-    {
-        case 1:printSchoolDetails(myschool);
-        break;
+        //clearInputBuffer();
 
-       
+        scanf("%d", &choice);
 
-    }
+        switch(choice) {
+            case 1:
+                myschool = createSchool();
+                break;
 
+            case 2:
+                printSchoolDetails(myschool);
+                break;
 
+            case 3:
+                // Add functionality to print course details
+                break;
+
+            case 4:
+                // Add functionality to print student details
+                break;
+
+            case 5:
+                // Add functionality to print student course
+                break;
+
+            case 6:
+                // Add functionality to print course with the highest average
+                break;
+
+            case 7:
+                return;  // Exit the function
+
+            default:
+                printf("Invalid choice\n");
+        
+        }
 }
+
+
+
 
 int main()
 {   
