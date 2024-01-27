@@ -22,9 +22,7 @@ typedef struct school
     unsigned int totalCourses;
     Course *courseArray;
 } School;
-
-void printStudentDetails(Student *student);
-void printCourseDetails(Course *course);
+int searchCourse(School *myschool, char *courseName);
 void printSchoolDetails(School *school);
 Student *createStudent();
 Course *createCourse();

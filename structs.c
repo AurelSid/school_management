@@ -179,3 +179,63 @@ void searchStudent(School *myschool)
     while (getchar() != '\n')
         ;
 }
+
+int searchCourse(School *myschool, char *courseName)
+{
+    while (getchar() != '\n')
+        ;
+
+    int courseFound = 0;
+    while (getchar() != '\n')
+        ;
+
+    for (unsigned int i = 0; i < myschool->totalCourses; i++)
+    {
+
+        if (strcmp(myschool->courseArray[i].name, courseName) == 0)
+        {
+            printf("Course found:\n");
+            printf("School: %s\n", myschool->name);
+            printf("Number of students: %d\n", myschool->courseArray[i].totalStudents);
+            printf("Course: %s\n", myschool->courseArray[i].name);
+            printf("Course: %s\n", myschool->courseArray[i].name);
+            courseFound = 1;
+            return i;
+            break;
+        }
+    }
+
+    if (!courseFound)
+    {
+        printf("COURSE with name: '%s' not found.\n", courseName);
+    }
+
+    while (getchar() != '\n')
+        ;
+}
+
+void addStudentToCourse(School *myschool, Course *mycourse)
+{
+    // REPLACE INDEWX WITH FOUND COURSE
+    int courseIndex = myschool->totalCourses - 1; //
+    int studentIndex = myschool->courseArray[courseIndex].totalStudents;
+
+    printf("Enter infos about new student ");
+    Student *newStudent = createStudent();
+    myschool->courseArray[courseIndex].totalStudents++;
+    myschool->courseArray[courseIndex].studentArray =
+        (Student *)realloc(myschool->courseArray[courseIndex].studentArray,
+                           sizeof(Student) * myschool->courseArray[courseIndex].totalStudents);
+
+    if (myschool->courseArray[courseIndex].studentArray == NULL)
+    {
+
+        printf("Memory reallocation failed.\n");
+        free(newStudent);
+        return;
+    }
+
+    myschool->courseArray[courseIndex].studentArray[studentIndex] = *newStudent;
+
+    free(newStudent);
+}

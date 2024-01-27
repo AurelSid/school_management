@@ -20,8 +20,8 @@ void secondMenu(School *myschool)
     printf("\n\n\n******************** CHOOSE AN OPTION AND PRESS ENTER ******************** \n\n");
 
     printf("1. - Add new course\n");
-    printf("2. - Find students details\n");
-    printf("3. - Print student details\n");
+    printf("2. - Search students details\n");
+    printf("3. - Search course details\n");
     printf("7. - Exit\n");
 
     scanf("%d", &choice);
@@ -35,7 +35,7 @@ void secondMenu(School *myschool)
         myschool->courseArray = (Course *)realloc(myschool->courseArray, sizeof(Course) * myschool->totalCourses);
 
         index++;
-
+        char courseName[20];
         Course *newCourse = createCourse();
 
         myschool->courseArray[index] = *newCourse;
@@ -58,6 +58,13 @@ void secondMenu(School *myschool)
         break;
 
     case 3:
+
+        printf("Please enter a Course name and press enter:");
+        scanf("%19s", courseName);
+        char *courseNamePointer = courseName;
+        searchCourse(myschool, courseNamePointer);
+        break;
+    case 4:
 
         break;
 
