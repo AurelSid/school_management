@@ -36,6 +36,7 @@ void secondMenu(School *myschool)
 
         index++;
         char courseName[20];
+        char studentName[20];
         Course *newCourse = createCourse();
 
         myschool->courseArray[index] = *newCourse;
@@ -52,9 +53,10 @@ void secondMenu(School *myschool)
         break;
 
     case 2:
-        while (getchar() != '\n')
-            ;
-        searchStudent(myschool);
+        printf("Please enter a Student name and press enter:");
+        char *studentNamePointer = studentName;
+        scanf("%19s", studentNamePointer);
+        searchStudent(myschool, studentNamePointer);
         break;
 
     case 3:
@@ -66,6 +68,11 @@ void secondMenu(School *myschool)
         break;
     case 4:
 
+        printf("\n\nPlease enter the name of the Course to ass the student to:");
+        scanf("%19s", courseName);
+        addStudentToCourse(myschool, courseName);
+        printf("Student Added successfully");
+        secondMenu(myschool);
         break;
 
     default:

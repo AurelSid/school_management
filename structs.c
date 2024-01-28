@@ -141,35 +141,28 @@ void printStudentsWhoPassed(Course *course, double cutOffGrade)
     }
 }
 
-void searchStudent(School *myschool)
+void searchStudent(School *myschool, char *studentName)
 {
-    while (getchar() != '\n')
-        ;
-
-    char studentName[20];
-    printf("Please enter a student's name and press enter: ");
-    scanf("%19s", studentName);
 
     int studentFound = 0;
-    while (getchar() != '\n')
 
-        for (unsigned int i = 0; i < myschool->totalCourses; i++)
+    for (unsigned int i = 0; i < myschool->totalCourses; i++)
+    {
+        for (unsigned int j = 0; j < myschool->courseArray[i].totalStudents; j++)
         {
-            for (unsigned int j = 0; j < myschool->courseArray[i].totalStudents; j++)
+            if (strcmp(myschool->courseArray[i].studentArray[j].name, studentName) == 0)
             {
-                if (strcmp(myschool->courseArray[i].studentArray[j].name, studentName) == 0)
-                {
-                    printf("Student Found:\n");
-                    printf("School: %s\n", myschool->name);
-                    printf("Course: %s\n", myschool->courseArray[i].name);
-                    printf("Student Name: %s\n", studentName);
-                    printf("Student ID: %u\n", myschool->courseArray[i].studentArray[j].id);
-                    printf("Student Grade: %u\n", myschool->courseArray[i].studentArray[j].grade);
-                    studentFound = 1;
-                    break;
-                }
+                printf("Student Found:\n");
+                printf("School: %s\n", myschool->name);
+                printf("Course: %s\n", myschool->courseArray[i].name);
+                printf("Student Name: %s\n", studentName);
+                printf("Student ID: %u\n", myschool->courseArray[i].studentArray[j].id);
+                printf("Student Grade: %u\n", myschool->courseArray[i].studentArray[j].grade);
+                studentFound = 1;
+                break;
             }
         }
+    }
 
     if (!studentFound)
     {
@@ -182,19 +175,15 @@ void searchStudent(School *myschool)
 
 int searchCourse(School *myschool, char *courseName)
 {
-    while (getchar() != '\n')
-        ;
 
     int courseFound = 0;
-    while (getchar() != '\n')
-        ;
 
     for (unsigned int i = 0; i < myschool->totalCourses; i++)
     {
 
         if (strcmp(myschool->courseArray[i].name, courseName) == 0)
         {
-            printf("Course found:\n");
+            printf("\n*********** Course found: %s **********\n\n", courseName);
             printf("School: %s\n", myschool->name);
             printf("Number of students: %d\n", myschool->courseArray[i].totalStudents);
             printf("Course: %s\n", myschool->courseArray[i].name);
@@ -214,10 +203,11 @@ int searchCourse(School *myschool, char *courseName)
         ;
 }
 
-void addStudentToCourse(School *myschool, Course *mycourse)
+void addStudentToCourse(School *myschool, char *courseName)
 {
     // REPLACE INDEWX WITH FOUND COURSE
-    int courseIndex = myschool->totalCourses - 1; //
+
+    int courseIndex = searchCourse(myschool, courseName);
     int studentIndex = myschool->courseArray[courseIndex].totalStudents;
 
     printf("Enter infos about new student ");

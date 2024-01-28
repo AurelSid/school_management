@@ -22,6 +22,8 @@ typedef struct school
     unsigned int totalCourses;
     Course *courseArray;
 } School;
+
+void addStudentToCourse(School *myschool, char *studentName);
 int searchCourse(School *myschool, char *courseName);
 void printSchoolDetails(School *school);
 Student *createStudent();
@@ -34,6 +36,6 @@ void mainMenu();
 void secondMenu();
 void printSchoolDetails();
 int clearInputBuffer();
-void searchStudent(School *myschool);
+void searchStudent(School *myschool, char *studentName);
 
 #endif
